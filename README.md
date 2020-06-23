@@ -137,7 +137,7 @@ Media model
    releaseDate: {type: Date},
    runtime: {type: Number},
    director: {type: String},
-   cast: [{type: String, required: true}]
+   cast: [{type: String, required: true}],
    networks: [{type: String}],
    firstAirDate: {type: Date, required: true},
    lastAirDate: {type: Date, required: true},
@@ -172,7 +172,7 @@ Media model
 
 ### Trello/Kanban
 
-[Link to your trello board](https://trello.com/b/iloDccrZ/backlog-quest) 
+[Link to your trello board](https://trello.com/b/xAQKJWNG/mediabox) 
 
 ### Git
 
