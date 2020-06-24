@@ -78,16 +78,16 @@ router.post('/login', (req, res) => {
        })
       return;  
     }
-    const myRegex = new RegExp(/^[a-z0-9](?!.*?[^\na-z0-9]{2})[^\s@]+@[^\s@]+\.[^\s@]+[a-z0-9]$/);
-    if (!myRegex.test(email)) {
-        res.status(500).json({
-            error: 'Email format not correct',
-        })
-        return;  
-    }
+    // const myRegex = new RegExp(/^[a-z0-9](?!.*?[^\na-z0-9]{2})[^\s@]+@[^\s@]+\.[^\s@]+[a-z0-9]$/);
+    // if (!myRegex.test(email)) {
+    //     res.status(500).json({
+    //         error: 'Email format not correct',
+    //     })
+    //     return;  
+    // }
   
     // Find if the user exists in the database 
-    UserModel.findOne({email})
+    UserModel.findOne({username})
       .then((userData) => {
            //check if passwords match
           bcrypt.compare(password, userData.passwordHash)
@@ -133,7 +133,7 @@ router.post('/logout', (req, res) => {
 })
 
 router.get("/user", isLoggedIn, (req, res, next) => {
-  res.status(200).json(req.session.loggedInUser);
+  res.status(200).json(req.session.loggedInUser)
 });
 
   module.exports = router;

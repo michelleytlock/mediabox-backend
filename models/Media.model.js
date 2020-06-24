@@ -5,7 +5,7 @@ let mediaSchema = new Schema({
     type: Number,
     required: true,
   },
-  mediatype: {
+  mediaType: {
     type: String,
     required: true
   },
@@ -17,18 +17,10 @@ let mediaSchema = new Schema({
     type: String,
     required: true
   },
-  genres: [{
-    type: String,
-    required: true
-  }],
   image: {
     type: String,
     required: true
   },
-  cast: [{
-    type: String,
-    required: true
-  }],
 
   // NOT REQUIRED
   // Movies:
