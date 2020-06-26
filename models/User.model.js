@@ -17,6 +17,7 @@ const userSchema = new Schema(
     list: [
       {
         mediaId: { type: Schema.Types.ObjectId, ref: "Media" },
+        mediaType: String,
         apiId: Number,
         listType: String,
         rating: Number,
