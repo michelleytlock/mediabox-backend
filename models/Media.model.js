@@ -21,6 +21,7 @@ let mediaSchema = new Schema({
     type: String,
     required: true
   },
+  genres: [Number],
 
   // NOT REQUIRED
   // Movies:
@@ -29,7 +30,6 @@ let mediaSchema = new Schema({
   runtime: Number,
   director: String,
   //TV Shows:
-  networks: [String],
   firstAirDate: Date,
   lastAirDate: Date,
   numberEps: Number,

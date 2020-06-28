@@ -19,6 +19,7 @@ router.post("/create", isLoggedIn, (req, res) => {
     description,
     title,
     image,
+    genres
   } = req.body;
 
   // console.log(apiId);
@@ -39,7 +40,7 @@ router.post("/create", isLoggedIn, (req, res) => {
           mediaType,
           title,
           description,
-          image,
+          image, genres
         })
           .then((createdMedia) => {
             // console.log(createdMedia)
@@ -205,6 +206,28 @@ router.get("/getDetails/:mediaType/:id", isLoggedIn, (req, res) => {
         });
     });
 });
+
+router.get("/:mediaType/:query/searchresults", isLoggedIn, (req, res) => {
+  const { mediaType, query } = req.params;
+  axios.get(`https://api.themoviedb.org/3/search/${mediaType}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1&include_adult=false&query=${query}`)
+    .then((response) => {
+      res.status(200).json(response.data.results)
+    })
+})
+
+router.get("/getGenres", isLoggedIn, (req, res) => {
+  axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`)
+    .then((movieResponse) => {
+      axios.get(`https://api.themoviedb.org/3/genre/tv/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`)
+        .then((tvResponse) => {
+          let genres = {
+            movie: movieResponse.data,
+            tv: tvResponse.data
+          }
+          res.status(200).json(genres)
+        })
+    })
+})
 
 router.delete("/user", isLoggedIn, (req, res) => {
   const { loggedInUser } = req.session;
