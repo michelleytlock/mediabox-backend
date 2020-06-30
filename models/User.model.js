@@ -23,6 +23,7 @@ const userSchema = new Schema(
         rating: Number,
       },
     ],
+    profileImg: String
   },
   {
     timestamps: true,
