@@ -18,7 +18,7 @@ router.post("/signup", (req, res) => {
     });
     return;
   }
-
+  console.log('ERROR CHECK 1')
   const myRegex = new RegExp(
     /^[a-z0-9](?!.*?[^\na-z0-9]{2})[^\s@]+@[^\s@]+\.[^\s@]+[a-z0-9]$/
   );
@@ -28,7 +28,7 @@ router.post("/signup", (req, res) => {
     });
     return;
   }
-
+  
   const myPassRegex = new RegExp(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/
   );
