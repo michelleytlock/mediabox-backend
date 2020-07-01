@@ -7,6 +7,7 @@ const UserModel = require("../models/User.model");
 let MediaModel = require("../models/Media.model");
 const Mongoose = require("mongoose");
 
+
 router.post("/create", isLoggedIn, (req, res) => {
   // console.log(req.body);
 
@@ -70,7 +71,18 @@ router.post("/create", isLoggedIn, (req, res) => {
                   { arrayFilters: [{ "element.mediaId": id }] }
                 )
                   .then((response) => {
-                    res.status(200).json(response);
+                    UserModel.findById(loggedInUser)
+                      .then((user_response) => {
+                        console.log('Create user res', user_response, rating)
+                        res.status(200).json(user_response)
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                        res.status(500).json({
+                          error: "Something went wrong",
+                          message: err,
+                        });
+                      });
                   })
                   .catch((err) => {
                     console.log(err);
@@ -87,7 +99,17 @@ router.post("/create", isLoggedIn, (req, res) => {
                 })
                   .then((response) => {
                     // console.log('usermodel' + response)
-                    res.status(200).json(response);
+                    UserModel.findById(loggedInUser)
+                      .then((user_response) => {
+                        res.status(200).json(user_response)
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                        res.status(500).json({
+                          error: "Something went wrong",
+                          message: err,
+                        });
+                      });
                   })
                   .catch((err) => {
                     res.status(500).json({
@@ -132,7 +154,19 @@ router.post("/create", isLoggedIn, (req, res) => {
               { arrayFilters: [{ "element.mediaId": media[0]._id }] }
             )
               .then((response) => {
-                res.status(200).json(response);
+                
+                UserModel.findById(loggedInUser)
+                  .then((user_response) => {
+                    console.log('create else', user_response, rating)
+                        res.status(200).json(user_response)
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                        res.status(500).json({
+                          error: "Something went wrong",
+                          message: err,
+                        });
+                      });
               })
               .catch((err) => {
                 console.log(err);
@@ -149,7 +183,19 @@ router.post("/create", isLoggedIn, (req, res) => {
             })
               .then((response) => {
                 // console.log('usermodel' + response)
-                res.status(200).json(response);
+
+                UserModel.findById(loggedInUser)
+                  .then((user_response) => {
+                    console.log('create else too', user_response, listType)
+                        res.status(200).json(user_response)
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                        res.status(500).json({
+                          error: "Something went wrong",
+                          message: err,
+                        });
+                      });
               })
               .catch((err) => {
                 res.status(500).json({
@@ -231,8 +277,10 @@ router.get("/getGenres", isLoggedIn, (req, res) => {
 
 router.delete("/user", isLoggedIn, (req, res) => {
   const { loggedInUser } = req.session;
+  
   UserModel.findByIdAndDelete(loggedInUser)
     .then((response) => {
+      req.session.destroy();
       res.status(200).json(response);
     })
     .catch((err) => {
@@ -266,5 +314,23 @@ router.patch("/update/:id", isLoggedIn, (req, res) => {
       });
     });
 });
+
+router.patch("/editProfile", isLoggedIn, (req, res) => {
+  const { profileImg } = req.body
+  const { loggedInUser } = req.session
+  console.log(profileImg)
+
+  UserModel.findByIdAndUpdate(loggedInUser, { profileImg: profileImg })
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: "Something went wrong",
+        message: err,
+      })
+    });
+})
 
 module.exports = router;
