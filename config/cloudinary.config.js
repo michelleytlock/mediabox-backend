@@ -3,9 +3,9 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer'); //allows us to read paths to files, otherwise, could only read inputs
 
 cloudinary.config({
-  cloud_name: 'michelleytlock',
-  api_key: '256443765661585',
-  api_secret: 'LrvFXHoI-XhJ3-bM3gWata06qzI'
+  cloud_name: process.env.REACT_APP_CLOUDINARY_USERNAME,
+  api_key: process.env.REACT_APP_CLOUDINARY_API_KEY,
+  api_secret: process.env.REACT_APP_CLOUDINARY_API_SECRET
 });
 
 const storage = new CloudinaryStorage({

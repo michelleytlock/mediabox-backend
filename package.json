@@ -1,5 +1,5 @@
 {
-  "name": "mongoose-express-starter",
+  "name": "mediabox-backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ManishPoduval/mongoose-express-starter.git"
+    "url": "git+https://github.com/michelleytlock/mediabox-backend.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ManishPoduval/mongoose-express-starter/issues"
+    "url": "https://github.com/michelleytlock/mediabox-backend/issues"
   },
-  "homepage": "https://github.com/ManishPoduval/mongoose-express-starter#readme",
+  "homepage": "https://github.com/michelleytlock/mediabox-backend/blob/master/README.md",
   "dependencies": {
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
