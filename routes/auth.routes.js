@@ -149,4 +149,23 @@ router.get("/userData", isLoggedIn, (req, res, next) => {
     });
 });
 
+router.post('/checkUsername', (req, res, next) => {
+  const { username } = req.body
+  UserModel.find({ username })
+    .then((response) => {
+      if (response.length === 0) {
+        res.status(200).json(false)
+      } else {
+        res.status(200).json(true)
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: "Something went wrong",
+        message: err,
+      });
+    });
+})
+
 module.exports = router;
