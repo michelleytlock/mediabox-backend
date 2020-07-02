@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const mongoose = require('mongoose');
 
 //ensure database is connected
 var path = require('path');
@@ -25,11 +26,11 @@ app.use(
       maxAge: 60 * 60 * 24 * 1000, //60 sec * 60 min * 24hrs = 1 day (in milliseconds)
     },
     store: new MongoStore({
-      url: MONGODB_URI,
-      // mongooseConnection: mongoose.connection
+      // url: MONGODB_URI,
+      mongooseConnection: mongoose.connection,
       //time to live (in seconds)
       ttl: 60 * 60 * 24,
-      autoRemove: 'disabled',
+      // autoRemove: 'disabled',
     }),
   })
 );

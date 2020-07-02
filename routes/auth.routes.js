@@ -121,8 +121,10 @@ router.post("/login", (req, res) => {
     });
 });
 
-router.post("/logout", (req, res) => {
+router.get("/logout", (req, res) => {
+  console.log('before', req.session)
   req.session.destroy();
+  console.log('after', req.session)
   res
     .status(204) //  No Content
     .send();
