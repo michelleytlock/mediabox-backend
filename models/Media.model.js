@@ -21,9 +21,9 @@ let mediaSchema = new Schema({
     type: String,
     required: true
   },
-  genres: [Number],
 
   // NOT REQUIRED
+  genres: [Number],
   // Movies:
   tagline: String,
   releaseData: Date,
