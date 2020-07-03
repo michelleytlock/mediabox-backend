@@ -170,4 +170,23 @@ router.post('/checkUsername', (req, res, next) => {
     });
 })
 
+router.post('/checkEmail', (req, res, next) => {
+  const { email } = req.body
+  UserModel.find({ email })
+    .then((response) => {
+      if (response.length === 0) {
+        res.status(200).json(false)
+      } else {
+        res.status(200).json(true)
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: "Something went wrong",
+        message: err,
+      });
+    });
+})
+
 module.exports = router;

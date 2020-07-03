@@ -255,7 +255,7 @@ router.get("/getDetails/:mediaType/:id", isLoggedIn, (req, res) => {
 
 router.get("/:mediaType/:query/searchresults", isLoggedIn, (req, res) => {
   const { mediaType, query } = req.params;
-  axios.get(`https://api.themoviedb.org/3/search/${mediaType}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1&include_adult=false&query=${query}`)
+  axios.get(`https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1&include_adult=false&query=${query}`)
     .then((response) => {
       res.status(200).json(response.data.results)
     })
