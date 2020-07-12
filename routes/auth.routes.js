@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-
-//we installed bcrypt.js
 const bcrypt = require("bcryptjs");
 
 const UserModel = require("../models/User.model");
