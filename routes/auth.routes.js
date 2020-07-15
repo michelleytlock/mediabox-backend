@@ -6,9 +6,9 @@ const UserModel = require("../models/User.model");
 
 const { isLoggedIn } = require("../helpers/auth-helper"); // to check if user is loggedIn
 
+// This route handles the sign up form
 router.post("/signup", (req, res) => {
   const { username, email, password } = req.body;
-  console.log(username, email, password);
 
   if (!username || !email || !password) {
     res.status(500).json({
@@ -64,6 +64,7 @@ router.post("/signup", (req, res) => {
   });
 });
 
+// This route handles the log in form
 router.post("/login", (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
@@ -72,29 +73,22 @@ router.post("/login", (req, res) => {
     });
     return;
   }
-  // const myRegex = new RegExp(/^[a-z0-9](?!.*?[^\na-z0-9]{2})[^\s@]+@[^\s@]+\.[^\s@]+[a-z0-9]$/);
-  // if (!myRegex.test(email)) {
-  //     res.status(500).json({
-  //         error: 'Email format not correct',
-  //     })
-  //     return;
-  // }
 
-  // Find if the user exists in the database
+  // Find existing user in User Model
   UserModel.findOne({ username })
     .then((userData) => {
-      //check if passwords match
+      // Use bcrypt to check if passwords match
       bcrypt
-        .compare(password, userData.passwordHash)
+        .compare(password, userData.passwordHash) // Method of Bcrypt
         .then((doesItMatch) => {
-          //if it matches
+          // If password DOES match:
           if (doesItMatch) {
-            // req.session is the special object that is available to you
+            // req.session is the special object that is available
+            // Make the session user equal to the userData
             req.session.loggedInUser = userData;
-            console.log("Signin", req.session);
             res.status(200).json(userData);
           }
-          //if passwords do not match
+          // If password DOES NOT match
           else {
             res.status(500).json({
               error: "Passwords don't match",
@@ -104,40 +98,42 @@ router.post("/login", (req, res) => {
         })
         .catch(() => {
           res.status(500).json({
-            error: "Email format not correct",
+            error: "Something went wrong",
           });
           return;
         });
     })
-    //throw an error if the user does not exists
+    // Throw an error if the user does not exist
     .catch((err) => {
       res.status(500).json({
-        error: "Email format not correct",
+        error: "User does not exist",
         message: err,
       });
       return;
     });
 });
 
+// This route handles logging out and destroying the session
 router.get("/logout", (req, res) => {
-  console.log('before', req.session)
   req.session.destroy();
-  console.log('after', req.session)
   res
     .status(204) //  No Content
     .send();
 });
 
+// This route handles getting the session user
 router.get("/user", isLoggedIn, (req, res, next) => {
   res.status(200).json(req.session.loggedInUser);
 });
 
+// This route handles getting the most updated version of the user from the User Model, mainly used for the updating of the list
 router.get("/userData", isLoggedIn, (req, res, next) => {
   const { loggedInUser } = req.session;
+
+  // Find the user
   UserModel.findById(loggedInUser)
-    .populate('list.mediaId')
+    .populate('list.mediaId') // populate with Media Model reference for everything in the user's list
     .then((user) => {
-      console.log(user)
       res.status(200).json(user);
     })
     .catch((err) => {
@@ -149,13 +145,18 @@ router.get("/userData", isLoggedIn, (req, res, next) => {
     });
 });
 
+// This route is used in the sign in form, for checking if the username already exists
 router.post('/checkUsername', (req, res, next) => {
+  // Receives a username from req.body onChange event
   const { username } = req.body
   UserModel.find({ username })
     .then((response) => {
+      // If username does not exist:
       if (response.length === 0) {
         res.status(200).json(false)
-      } else {
+      }
+      // If username does exist:
+      else {
         res.status(200).json(true)
       }
     })
@@ -168,13 +169,18 @@ router.post('/checkUsername', (req, res, next) => {
     });
 })
 
+// This route is used in the sign in form, for checking if the email is already in use
 router.post('/checkEmail', (req, res, next) => {
+  // Receives a email from req.body onChange event
   const { email } = req.body
   UserModel.find({ email })
     .then((response) => {
+      // If email does not exist:
       if (response.length === 0) {
         res.status(200).json(false)
-      } else {
+      }
+      // If email does exist:
+      else {
         res.status(200).json(true)
       }
     })
